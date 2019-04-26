@@ -20,4 +20,44 @@ public class Department
     public Department(String depName, Employee manager, ArrayList<Employee> employeeList)
     {
     }
+
+    public String getDepName()
+    {
+        return depName;
+    }
+
+    public void setDepName(String depName)
+    {
+        this.depName = depName;
+    }
+
+    public Employee getManager()
+    {
+        return manager;
+    }
+
+    public void setManager(Employee manager)
+    {
+        this.manager = manager;
+    }
+
+    public ArrayList<Employee> getEmployeeList()
+    {
+        return employeeList;
+    }
+
+    public void setEmployeeList(ArrayList<Employee> employeeList)
+    {
+        this.employeeList = employeeList;
+    }
+
+    public int getNbEmployees()
+    {
+        return nbEmployees;
+    }
+
+    public void setNbEmployees(int nbEmployees)
+    {
+        this.nbEmployees = nbEmployees;
+    }
 }
