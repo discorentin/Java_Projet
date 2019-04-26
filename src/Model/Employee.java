@@ -14,7 +14,7 @@ public class Employee extends Person
     {
     }
 
-    public Employee(int employeeId, Department department, EmployeeTime employeeTime)
+    public Employee(String name, String Surname, int employeeId, Department department, EmployeeTime employeeTime)
     {
     }
 }
