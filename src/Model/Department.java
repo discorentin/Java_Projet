@@ -9,16 +9,20 @@ public class Department
     private java.util.ArrayList<Employee> employeeList;
     private int nbEmployees;
 
-    public Department()
-    {
-    }
-
     public Department(Department param)
     {
+        setDepName(param.depName);
+        setManager(param.manager);
+        setEmployeeList(employeeList);
+        setNbEmployees(employeeList.size());
     }
 
     public Department(String depName, Employee manager, ArrayList<Employee> employeeList)
     {
+        setDepName(depName);
+        setManager(manager);
+        setEmployeeList(employeeList);
+        setNbEmployees(employeeList.size());
     }
 
     public String getDepName()

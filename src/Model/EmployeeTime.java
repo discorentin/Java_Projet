@@ -11,24 +11,26 @@ public class EmployeeTime
     private java.time.Duration[] DepartureList;
     private java.time.Duration hRatio;
 
-    public EmployeeTime()
-    {
-    }
-
     public EmployeeTime(EmployeeTime param)
     {
+        setIsAtWork(param.isAtWork);
+        setMustArriveAt(param.mustArriveAt);
+        setMustLeaveAt(param.mustLeaveAt);
+        setArrivalList(param.ArrivalList);
+        setDepartureList(param.DepartureList);
+
     }
 
     public EmployeeTime(boolean isAtWork, Duration mustArriveAt, Duration mustLeaveAt, Duration[] ArrivalList, Duration[] DepartureList)
     {
     }
 
-    public boolean isAtWork()
+    public boolean getIsAtWork()
     {
         return isAtWork;
     }
 
-    public void setAtWork(boolean atWork)
+    public void setIsAtWork(boolean atWork)
     {
         isAtWork = atWork;
     }
@@ -78,8 +80,13 @@ public class EmployeeTime
         return hRatio;
     }
 
-    public void sethRatio(Duration hRatio)
+    public Duration calculateRatio(Duration[] arrivalList, Duration[] departureList)
     {
-        this.hRatio = hRatio;
+        int ratio = 0;
+
+        for(int i = 0; i < arrivalList.length; i++)
+        {
+            ratio = ratio.plus();
+        }
     }
 }

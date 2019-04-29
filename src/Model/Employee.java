@@ -6,16 +6,20 @@ public class Employee extends Person
     private Department department;
     private EmployeeTime employeeTime;
 
-    public Employee()
-    {
-    }
-
     public Employee(Employee param)
     {
+        super(param.getName(), param.getSurname());
+        setEmployeeId(param.employeeId);
+        setDepartment(param.department);
+        setEmployeeTime(param.employeeTime);
     }
 
-    public Employee(String name, String Surname, int employeeId, Department department, EmployeeTime employeeTime)
+    public Employee(String name, String surname, int employeeId, Department department, EmployeeTime employeeTime)
     {
+        super(name, surname);
+        setEmployeeId(employeeId);
+        setDepartment(department);
+        setEmployeeTime(employeeTime);
     }
 
     public int getEmployeeId()

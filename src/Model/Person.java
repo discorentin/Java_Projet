@@ -5,16 +5,16 @@ public class Person
     private String name;
     private String surname;
 
-    public Person()
-    {
-    }
-
     public Person(Person param)
     {
+        setName(param.name);
+        setSurname(param.surname);
     }
 
     public Person(String name, String surname)
     {
+        setName(name);
+        setSurname(surname);
     }
 
     public String getName()
