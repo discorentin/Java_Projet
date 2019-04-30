@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>Model</OriginalElement>
+  <nodes>
+    <node x="391.0" y="357.0">Model.Boss</node>
+    <node x="233.75" y="0.0">Model.Person</node>
+    <node x="0.0" y="698.0">Model.Department</node>
+    <node x="608.0" y="0.0">Model.EmployeeTime</node>
+    <node x="0.0" y="257.0">Model.Employee</node>
+    <node x="2.5" y="580.0">Model.Manager</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Model.Boss" target="Model.Person">
+      <point x="0.0" y="-36.5" />
+      <point x="477.0" y="232.0" />
+      <point x="380.0" y="232.0" />
+      <point x="48.75" y="103.5" />
+    </edge>
+    <edge source="Model.Employee" target="Model.Person">
+      <point x="0.0" y="-136.5" />
+      <point x="185.5" y="232.0" />
+      <point x="282.5" y="232.0" />
+      <point x="-48.75" y="103.5" />
+    </edge>
+    <edge source="Model.Manager" target="Model.Employee">
+      <point x="0.0" y="-36.5" />
+      <point x="0.0" y="136.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7511825922421949" x="514.0" y="518.5" />
+  <SelectedNodes>
+    <node>Model.Manager</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

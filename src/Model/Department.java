@@ -17,6 +17,14 @@ public class Department
         setNbEmployees(employeeList.size());
     }
 
+    public Department(String depName)
+    {
+        setDepName(depName);
+        setManager(manager);
+        setEmployeeList(employeeList);
+        setNbEmployees(employeeList.size());
+    }
+
     public Department(String depName, Employee manager, ArrayList<Employee> employeeList)
     {
         setDepName(depName);

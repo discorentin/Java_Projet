@@ -7,8 +7,8 @@ public class EmployeeTime
     private boolean isAtWork;
     private java.time.Duration mustArriveAt;
     private java.time.Duration mustLeaveAt;
-    private java.time.Duration[] ArrivalList;
-    private java.time.Duration[] DepartureList;
+    private java.time.Duration[] arrivalList;
+    private java.time.Duration[] departureList;
     private java.time.Duration hRatio;
 
     public EmployeeTime(EmployeeTime param)
@@ -16,13 +16,20 @@ public class EmployeeTime
         setIsAtWork(param.isAtWork);
         setMustArriveAt(param.mustArriveAt);
         setMustLeaveAt(param.mustLeaveAt);
-        setArrivalList(param.ArrivalList);
-        setDepartureList(param.DepartureList);
+        setArrivalList(param.arrivalList);
+        setDepartureList(param.departureList);
+        calculateRatio();
 
     }
 
-    public EmployeeTime(boolean isAtWork, Duration mustArriveAt, Duration mustLeaveAt, Duration[] ArrivalList, Duration[] DepartureList)
+    public EmployeeTime(boolean isAtWork, Duration mustArriveAt, Duration mustLeaveAt, Duration[] arrivalList, Duration[] departureList)
     {
+        setIsAtWork(isAtWork);
+        setMustArriveAt(mustArriveAt);
+        setMustLeaveAt(mustLeaveAt);
+        setArrivalList(arrivalList);
+        setDepartureList(departureList);
+        calculateRatio();
     }
 
     public boolean getIsAtWork()
@@ -57,22 +64,22 @@ public class EmployeeTime
 
     public Duration[] getArrivalList()
     {
-        return ArrivalList;
+        return arrivalList;
     }
 
     public void setArrivalList(Duration[] arrivalList)
     {
-        ArrivalList = arrivalList;
+        this.arrivalList = arrivalList;
     }
 
     public Duration[] getDepartureList()
     {
-        return DepartureList;
+        return departureList;
     }
 
     public void setDepartureList(Duration[] departureList)
     {
-        DepartureList = departureList;
+        this.departureList = departureList;
     }
 
     public Duration gethRatio()
@@ -80,13 +87,25 @@ public class EmployeeTime
         return hRatio;
     }
 
-    public Duration calculateRatio(Duration[] arrivalList, Duration[] departureList)
+    public void sethRatio(Duration hRatio)
     {
-        int ratio = 0;
+        this.hRatio = hRatio;
+    }
+
+    public void calculateRatio()
+    {
+        Duration ratio = Duration.ofMinutes(0);
 
         for(int i = 0; i < arrivalList.length; i++)
         {
-            ratio = ratio.plus();
+            ratio = ratio.plus(mustArriveAt.minus(arrivalList[i]));
         }
+
+        for(int i = 0; i < departureList.length; i++)
+        {
+            ratio = ratio.plus(departureList[i].minus(mustLeaveAt));
+        }
+
+        sethRatio(ratio);
     }
 }
