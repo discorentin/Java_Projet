@@ -3,10 +3,13 @@
   <ID>JAVA</ID>
   <OriginalElement>Model</OriginalElement>
   <nodes>
+    <node x="914.0" y="698.0">Model.EmployeeTest</node>
     <node x="391.0" y="357.0">Model.Boss</node>
     <node x="233.75" y="0.0">Model.Person</node>
+    <node x="653.0" y="698.0">Model.DepartmentTest</node>
     <node x="0.0" y="698.0">Model.Department</node>
     <node x="608.0" y="0.0">Model.EmployeeTime</node>
+    <node x="395.0" y="698.0">Model.EmployeeTimeTest</node>
     <node x="0.0" y="257.0">Model.Employee</node>
     <node x="2.5" y="580.0">Model.Manager</node>
   </nodes>
@@ -29,7 +32,7 @@
       <point x="0.0" y="136.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.7511825922421949" x="514.0" y="518.5" />
+  <settings layout="Hierarchic Group" zoom="0.8782205746061171" x="418.3405257253445" y="301.7441970630032" />
   <SelectedNodes>
     <node>Model.Manager</node>
   </SelectedNodes>

@@ -20,13 +20,21 @@ public class Department
     public Department(String depName)
     {
         setDepName(depName);
-        setManager(manager);
-        setEmployeeList(employeeList);
-        setNbEmployees(employeeList.size());
     }
 
     public Department(String depName, Employee manager, ArrayList<Employee> employeeList)
     {
+        int i = 0;
+
+        while(i < employeeList.size() && employeeList.get(i) != manager)
+            i++;
+
+        if(i == employeeList.size())
+            employeeList.add(manager);
+
+        for(i = 0; i < employeeList.size(); i++)
+            employeeList.get(i).setDepartment(this);
+
         setDepName(depName);
         setManager(manager);
         setEmployeeList(employeeList);

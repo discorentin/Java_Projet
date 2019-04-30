@@ -20,6 +20,8 @@ public class Employee extends Person
         setEmployeeId(employeeId);
         setDepartment(department);
         setEmployeeTime(employeeTime);
+
+        //department.getEmployeeList().add(this);
     }
 
     public int getEmployeeId()
