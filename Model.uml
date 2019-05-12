@@ -3,45 +3,85 @@
   <ID>JAVA</ID>
   <OriginalElement>Model</OriginalElement>
   <nodes>
-    <node x="914.0" y="698.0">Model.EmployeeTest</node>
-    <node x="391.0" y="357.0">Model.Boss</node>
-    <node x="233.75" y="0.0">Model.Person</node>
-    <node x="653.0" y="698.0">Model.DepartmentTest</node>
-    <node x="0.0" y="698.0">Model.Department</node>
-    <node x="608.0" y="0.0">Model.EmployeeTime</node>
-    <node x="395.0" y="698.0">Model.EmployeeTimeTest</node>
-    <node x="0.0" y="257.0">Model.Employee</node>
-    <node x="2.5" y="580.0">Model.Manager</node>
+    <node x="0.0" y="1121.0">Model.Boss</node>
+    <node x="29.138888888888914" y="165.0">Model.Person</node>
+    <node x="230.89305555555555" y="977.0">Model.Department</node>
+    <node x="286.1694444444445" y="0.0">Model.EmployeeTime</node>
+    <node x="175.96944444444443" y="587.0">Model.Employee</node>
+    <node x="33.55972222222226" y="1388.0">Model.Company</node>
+    <node x="196.7283333333333" y="876.0">Model.Manager</node>
   </nodes>
   <notes />
   <edges>
+    <edge source="Model.Manager" target="Model.Employee">
+      <point x="44.25" y="-25.5" />
+      <point x="329.4783333333333" y="856.0" />
+      <point x="263.96944444444443" y="856.0" />
+      <point x="-88.0" y="114.5" />
+    </edge>
+    <edge source="Model.Department" target="Model.Manager">
+      <point x="-69.50000000000003" y="-180.5" />
+      <point x="300.3930555555555" y="957.0" />
+      <point x="329.4783333333333" y="957.0" />
+      <point x="44.25" y="25.5" />
+    </edge>
+    <edge source="Model.Employee" target="Model.Department">
+      <point x="146.66666666666657" y="114.5" />
+      <point x="498.636111111111" y="856.0" />
+      <point x="417.2283333333333" y="856.0" />
+      <point x="417.2283333333333" y="947.0" />
+      <point x="485.7263888888889" y="947.0" />
+      <point x="115.83333333333331" y="-180.5" />
+    </edge>
     <edge source="Model.Boss" target="Model.Person">
-      <point x="0.0" y="-36.5" />
-      <point x="477.0" y="232.0" />
-      <point x="380.0" y="232.0" />
-      <point x="48.75" y="103.5" />
+      <point x="-43.0" y="-36.5" />
+      <point x="43.0" y="957.0" />
+      <point x="91.26388888888891" y="957.0" />
+      <point x="91.26388888888891" y="567.0" />
+      <point x="53.513888888888914" y="567.0" />
+      <point x="-73.125" y="103.5" />
+    </edge>
+    <edge source="Model.Department" target="Model.Employee">
+      <point x="-23.166666666666686" y="-180.5" />
+      <point x="346.7263888888889" y="957.0" />
+      <point x="384.2283333333333" y="957.0" />
+      <point x="384.2283333333333" y="846.0" />
+      <point x="322.6361111111111" y="846.0" />
+      <point x="-29.333333333333343" y="114.5" />
     </edge>
     <edge source="Model.Employee" target="Model.Person">
-      <point x="0.0" y="-136.5" />
-      <point x="185.5" y="232.0" />
-      <point x="282.5" y="232.0" />
-      <point x="-48.75" y="103.5" />
+      <point x="-70.4" y="-114.5" />
+      <point x="281.56944444444446" y="557.0" />
+      <point x="199.7638888888889" y="557.0" />
+      <point x="73.125" y="103.5" />
     </edge>
-    <edge source="Model.Manager" target="Model.Employee">
-      <point x="0.0" y="-36.5" />
-      <point x="0.0" y="136.5" />
+    <edge source="Model.Employee" target="Model.EmployeeTime">
+      <point x="70.40000000000003" y="-114.5" />
+      <point x="422.36944444444447" y="567.0" />
+      <point x="437.6694444444445" y="567.0" />
+      <point x="0.0" y="268.5" />
+    </edge>
+    <edge source="Model.Company" target="Model.Boss">
+      <point x="0.0" y="-169.5" />
+      <point x="183.55972222222226" y="1368.0" />
+      <point x="143.33333333333337" y="1368.0" />
+      <point x="57.33333333333337" y="36.5" />
+    </edge>
+    <edge source="Model.Company" target="Model.Department">
+      <point x="60.0" y="-169.5" />
+      <point x="243.55972222222226" y="1358.0" />
+      <point x="300.3930555555555" y="1358.0" />
+      <point x="-69.5" y="180.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.8782205746061171" x="418.3405257253445" y="301.7441970630032" />
-  <SelectedNodes>
-    <node>Model.Manager</node>
-  </SelectedNodes>
+  <settings layout="Hierarchic Group" zoom="0.6774503908598918" x="493.8441412274922" y="641.0890093700335" />
+  <SelectedNodes />
   <Categories>
     <Category>Fields</Category>
     <Category>Constructors</Category>
     <Category>Methods</Category>
   </Categories>
-  <SCOPE>All</SCOPE>
+  <SCOPE>Production</SCOPE>
   <VISIBILITY>private</VISIBILITY>
 </Diagram>
 
