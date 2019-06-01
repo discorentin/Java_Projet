@@ -9,7 +9,6 @@ import java.awt.event.ItemListener;
 
 public class ViewNewDepartment extends JFrame
 {
-    private JTextArea departmentNameTextArea;
     private JTextField depNameTextField;
     private JCheckBox setManagerCheckBox;
     private JTextField searchManagerTextField;
@@ -18,6 +17,7 @@ public class ViewNewDepartment extends JFrame
     private JButton cancelButton;
     private JPanel newDepartmentPanel;
     private JButton selectButton;
+    private JLabel depNameLabel;
 
     public ViewNewDepartment()
     {
@@ -84,19 +84,11 @@ public class ViewNewDepartment extends JFrame
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
         newDepartmentPanel.add(panel1, gbc);
-        departmentNameTextArea = new JTextArea();
-        departmentNameTextArea.setEditable(false);
-        departmentNameTextArea.setText("Department name :");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(departmentNameTextArea, gbc);
         depNameTextField = new JTextField();
         depNameTextField.setColumns(14);
         depNameTextField.setText("");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -105,7 +97,7 @@ public class ViewNewDepartment extends JFrame
         setManagerCheckBox.setText("Set manager");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         panel1.add(setManagerCheckBox, gbc);
         searchManagerTextField = new JTextField();
@@ -114,8 +106,8 @@ public class ViewNewDepartment extends JFrame
         searchManagerTextField.setText("Search manager");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
+        gbc.gridy = 3;
+        gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel1.add(searchManagerTextField, gbc);
@@ -123,16 +115,16 @@ public class ViewNewDepartment extends JFrame
         managersTable.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
+        gbc.gridy = 4;
+        gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         panel1.add(managersTable, gbc);
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 6;
-        gbc.gridwidth = 2;
+        gbc.gridy = 7;
+        gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         panel1.add(panel2, gbc);
         okButton = new JButton();
@@ -145,38 +137,64 @@ public class ViewNewDepartment extends JFrame
         cancelButton = new JButton();
         cancelButton.setText("Cancel");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel2.add(cancelButton, gbc);
         final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 5;
-        gbc.gridwidth = 2;
+        gbc.gridx = 1;
+        gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(spacer1, gbc);
+        panel2.add(spacer1, gbc);
+        final JPanel spacer2 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        gbc.gridwidth = 3;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel1.add(spacer2, gbc);
         selectButton = new JButton();
         selectButton.setEnabled(false);
         selectButton.setText("Select");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
+        gbc.gridy = 5;
+        gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.EAST;
         panel1.add(selectButton, gbc);
-        final JPanel spacer2 = new JPanel();
+        depNameLabel = new JLabel();
+        depNameLabel.setText("Name :");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        newDepartmentPanel.add(spacer2, gbc);
+        gbc.anchor = GridBagConstraints.EAST;
+        panel1.add(depNameLabel, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
-        newDepartmentPanel.add(spacer3, gbc);
+        panel1.add(spacer3, gbc);
+        final JPanel spacer4 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel1.add(spacer4, gbc);
+        final JPanel spacer5 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        newDepartmentPanel.add(spacer5, gbc);
+        final JPanel spacer6 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        newDepartmentPanel.add(spacer6, gbc);
     }
 
     /**

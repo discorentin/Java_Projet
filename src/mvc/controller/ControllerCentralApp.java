@@ -15,13 +15,24 @@ public class ControllerCentralApp
 {
     private mvc.model.ModelCentralApp model;
     private mvc.view.centralApp.ViewCentralApp viewCentralApp;
-    private mvc.view.centralApp.ViewDepEdit viewDepEdit;
     private mvc.controller.ControllerNewDepartment controllerNewDepartment;
+    private mvc.controller.ControllerNewEmployee controllerNewEmployee;
 
     public ControllerCentralApp()
     {
         model = new ModelCentralApp();
         viewCentralApp = new ViewCentralApp(model);
+
+        /* DEPARTMENTS TAB */
+
+        viewCentralApp.getDepartmentComboBox().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+
+            }
+        });
 
         viewCentralApp.getNewDepartmentButton().addActionListener(new ActionListener()
         {
@@ -42,12 +53,14 @@ public class ControllerCentralApp
             }
         });
 
-        viewCentralApp.getDepartmentComboBox().addActionListener(new ActionListener()
+        /* EMPLOYEES TAB */
+
+        viewCentralApp.getNewEmployeeButton().addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-
+                controllerNewEmployee = new ControllerNewEmployee(model);
             }
         });
     }
