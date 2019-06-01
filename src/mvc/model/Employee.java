@@ -1,4 +1,4 @@
-package model;
+package mvc.model;
 
 /**
  * @class Employee
@@ -53,7 +53,7 @@ public class Employee extends Person
     public Employee(String name, String surname, boolean isAtWork, java.time.Duration mustArriveAt, java.time.Duration mustLeaveAt)
     {
         super(name, surname);
-        this.employeeId.randomUUID();
+        this.employeeId = java.util.UUID.randomUUID();
         this.employeeTime = new EmployeeTime(isAtWork, mustArriveAt, mustLeaveAt);
     }
 
@@ -95,5 +95,16 @@ public class Employee extends Person
     public void setDepartment(Department department)
     {
         this.department = department;
+    }
+
+    /* METHODS */
+
+    /**
+     * @function Employee#isManager
+     * @return {boolean} false
+     */
+    public boolean isManager()
+    {
+        return false;
     }
 }

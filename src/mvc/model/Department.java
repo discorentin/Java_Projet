@@ -1,4 +1,4 @@
-package model;
+package mvc.model;
 
 /**
  * @class Department
@@ -53,8 +53,21 @@ public class Department
      * @param {String} depName
      * @constructor
      */
+    public Department(String depName)
+    {
+        this.employeeList = new java.util.ArrayList<Employee>();
+        this.nbEmployees = 0;
+        setDepName(depName);
+    }
+
+    /**
+     * @param {String} depName
+     * @param {Manager} manager
+     * @constructor
+     */
     public Department(String depName, Manager manager)
     {
+        this.employeeList = new java.util.ArrayList<Employee>();
         this.nbEmployees = 0;
         setDepName(depName);
         setManager(manager);
@@ -135,10 +148,7 @@ public class Department
     {
         this.manager = manager;
 
-        if (manager.getDepartment() != this)
-        {
-            this.addEmployee(this.manager);
-        }
+        this.addEmployee(this.manager);
     }
 
     /* METHODS */
@@ -150,20 +160,17 @@ public class Department
      */
     public void addEmployee(Employee employee)
     {
-        try
+        for(int i = 0; i < this.getNbEmployees(); i++)
         {
-            if (this.employeeList.contains(employee))
+            if (this.employeeList.get(i).getEmployeeId() == employee.getEmployeeId())
             {
-                throw new Exception("error : this employee is already in the department " + this.getDepName());
+                return;
             }
-
-            employee.setDepartment(this);
-            this.employeeList.add(employee);
-            this.nbEmployees++;
-        } catch (Exception exception)
-        {
-            System.err.println(exception.getMessage());
         }
+
+        employee.setDepartment(this);
+        this.employeeList.add(employee);
+        this.nbEmployees++;
     }
 
     /**

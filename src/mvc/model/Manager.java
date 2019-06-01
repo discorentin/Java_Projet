@@ -1,4 +1,4 @@
-package model;
+package mvc.model;
 
 /**
  * @class Manager
@@ -6,6 +6,8 @@ package model;
  */
 public class Manager extends Employee
 {
+    /* CONSTRUCTORS */
+
     /**
      * @constructor
      * @param {Employee} param
@@ -15,9 +17,25 @@ public class Manager extends Employee
         super(param);
     }
 
+    /**
+     * @constructor
+     * @param {Employee} employee : the employee to promote
+     */
     public void makeManager(Employee employee)
     {
         Manager manager = new Manager(employee);
         employee = null;
+    }
+
+    /* METHOD */
+
+    /**
+     * @function Manager#isManager
+     * @return {boolean} true
+     */
+    @Override
+    public boolean isManager()
+    {
+        return true;
     }
 }

@@ -1,4 +1,6 @@
-package model;
+package mvc.model;
+
+import java.util.ArrayList;
 
 /**
  * @class Company
@@ -35,7 +37,18 @@ public class Company
      */
     private int nbDepartments;
 
-    /* CONSTRUCTOR */
+    /* CONSTRUCTORS */
+
+    /**
+     * @constructor default
+     */
+    public Company()
+    {
+        setCompanyName("");
+        setCompanyBoss("", "");
+        this.departmentList = new ArrayList<>();
+        this.nbDepartments = 0;
+    }
 
     /**
      * @constructor
@@ -47,6 +60,7 @@ public class Company
     {
         setCompanyName(companyName);
         setCompanyBoss(bossName, bossSurname);
+        this.departmentList = new ArrayList<>();
         this.nbDepartments = 0;
     }
 
@@ -104,6 +118,41 @@ public class Company
     public int getNbDepartments()
     {
         return this.nbDepartments;
+    }
+
+    /**
+     * @name Company#getEmployeesList
+     * @return {java.util.ArrayList<Employee>} the company's list of employees
+     */
+    public java.util.ArrayList<Employee> getEmployeesList()
+    {
+        java.util.ArrayList<Employee> employeesList = new java.util.ArrayList<>();
+
+        for (int i = 0; i < this.nbDepartments; i++)
+        {
+            for(int j = 0; j < this.departmentList.get(i).getNbEmployees(); j++)
+            {
+                employeesList.add(this.departmentList.get(i).getEmployeeList().get(j));
+            }
+        }
+
+        return employeesList;
+    }
+
+    /**
+     * @name getNbEmployees
+     * @return {int} the number of employees of the company
+     */
+    public int getNbEmployees()
+    {
+        int nbEmployees = 0;
+
+        for(int i = 0; i < this.getNbDepartments(); i++)
+        {
+            nbEmployees += this.getDepartmentList().get(i).getNbEmployees();
+        }
+
+        return nbEmployees;
     }
 
     /* SETTERS */

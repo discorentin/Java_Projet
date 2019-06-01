@@ -1,4 +1,6 @@
-package model;
+package mvc.model;
+
+import java.util.ArrayList;
 
 /**
  * @class EmployeeTime
@@ -105,7 +107,9 @@ public class EmployeeTime
             this.isAtWork = isAtWork;
             this.setMustArriveAt(mustArriveAt);
             this.setMustLeaveAt(mustLeaveAt);
+            this.arrivalList = new ArrayList<java.time.Duration>();
             this.nbArrivals = 0;
+            this.departureList = new ArrayList<java.time.Duration>();
             this.nbDepartures = 0;
             this.calculateRatio();
 
@@ -246,6 +250,8 @@ public class EmployeeTime
     {
         this.arrivalList.add(arrivalTime);
         this.nbArrivals++;
+        this.calculateRatio();
+        this.isAtWork = true;
     }
 
     /**
@@ -257,5 +263,7 @@ public class EmployeeTime
     {
         this.departureList.add(departureTime);
         this.nbDepartures++;
+        this.calculateRatio();
+        this.isAtWork = false;
     }
 }
