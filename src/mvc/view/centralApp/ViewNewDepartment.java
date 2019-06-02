@@ -28,6 +28,11 @@ public class ViewNewDepartment extends JFrame
         setVisible(true);
     }
 
+    public JTextField getDepNameTextField()
+    {
+        return this.depNameTextField;
+    }
+
     public JCheckBox getSetManagerCheckBox()
     {
         return this.setManagerCheckBox;
@@ -38,14 +43,9 @@ public class ViewNewDepartment extends JFrame
         return this.searchManagerTextField;
     }
 
-    public JButton getOkButton()
+    public JTable getManagersTable()
     {
-        return this.okButton;
-    }
-
-    public JTextField getDepNameTextField()
-    {
-        return this.depNameTextField;
+        return this.managersTable;
     }
 
     public JButton getSelectButton()
@@ -53,9 +53,14 @@ public class ViewNewDepartment extends JFrame
         return this.selectButton;
     }
 
-    public JTable getManagersTable()
+    public JButton getOkButton()
     {
-        return this.managersTable;
+        return this.okButton;
+    }
+
+    public JButton getCancelButton()
+    {
+        return this.cancelButton;
     }
 
     {

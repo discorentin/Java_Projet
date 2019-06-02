@@ -15,7 +15,6 @@ public class ControllerNewDepartment
     private mvc.model.Department newDepartment;
     private mvc.model.Manager manager;
 
-
     public ControllerNewDepartment(mvc.model.ModelCentralApp model)
     {
         viewNewDepartment = new ViewNewDepartment();
@@ -46,25 +45,10 @@ public class ControllerNewDepartment
             {
                 super.focusLost(e);
 
-                if(viewNewDepartment.getSearchManagerTextField().getText().equals(""))
+                if (viewNewDepartment.getSearchManagerTextField().getText().equals(""))
                 {
                     viewNewDepartment.getSearchManagerTextField().setText("Search manager");
                 }
-            }
-        });
-
-        viewNewDepartment.getOkButton().addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                if(viewNewDepartment.getDepNameTextField().getText() != "")
-                {
-                    newDepartment = new Department(viewNewDepartment.getDepNameTextField().getText());
-                    model.getCompany().addDepartment(newDepartment);
-                }
-
-                viewNewDepartment.dispose();
             }
         });
 
@@ -74,6 +58,30 @@ public class ControllerNewDepartment
             public void actionPerformed(ActionEvent e)
             {
 
+            }
+        });
+
+        viewNewDepartment.getOkButton().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (viewNewDepartment.getDepNameTextField().getText() != "")
+                {
+                    newDepartment = new Department(viewNewDepartment.getDepNameTextField().getText());
+                    model.getCompany().addDepartment(newDepartment);
+                }
+
+                viewNewDepartment.dispose();
+            }
+        });
+
+        viewNewDepartment.getCancelButton().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                viewNewDepartment.dispose();
             }
         });
     }

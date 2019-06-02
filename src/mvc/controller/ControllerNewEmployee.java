@@ -95,6 +95,15 @@ public class ControllerNewEmployee
                 viewNewEmployee.dispose();
             }
         });
+
+        viewNewEmployee.getCancelButton().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                viewNewEmployee.dispose();
+            }
+        });
     }
 
     /* GETTER */
