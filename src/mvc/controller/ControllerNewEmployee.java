@@ -1,15 +1,17 @@
 package mvc.controller;
 
+import mvc.model.Employee;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.Duration;
 
 public class ControllerNewEmployee
 {
     private mvc.view.centralApp.ViewNewEmployee viewNewEmployee;
-    private mvc.model.Employee newEmployee;
 
     public ControllerNewEmployee(mvc.model.ModelCentralApp model)
     {
@@ -73,9 +75,33 @@ public class ControllerNewEmployee
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                mvc.model.Employee newEmployee;
+                Duration checkInTime;
+                Duration checkOutTime;
+                String[] timePartsIn;
+                String[] timePartsOut;
 
+                timePartsIn = viewNewEmployee.getCheckInComboBox().getSelectedItem().toString().split(":");
+                timePartsOut = viewNewEmployee.getCheckOutComboBox().getSelectedItem().toString().split(":");
+
+                checkInTime = Duration.ofHours(Integer.valueOf(timePartsIn[0])).plus(Duration.ofMinutes(Integer.valueOf(timePartsIn[1])));
+                checkOutTime = Duration.ofHours(Integer.valueOf(timePartsOut[0])).plus(Duration.ofMinutes(Integer.valueOf(timePartsOut[1])));
+
+                newEmployee = new Employee(viewNewEmployee.getFirstNameTextField().getText(), viewNewEmployee.getLastNameTextField().getText(),
+                                            false, checkInTime, checkOutTime);
+
+                model.getCompany().getDepartment(viewNewEmployee.getDepartmentComboBox().getSelectedItem().toString()).addEmployee(newEmployee);
+
+                viewNewEmployee.dispose();
             }
         });
+    }
+
+    /* GETTER */
+
+    public mvc.view.centralApp.ViewNewEmployee getView()
+    {
+        return viewNewEmployee;
     }
 
     /* METHOD */

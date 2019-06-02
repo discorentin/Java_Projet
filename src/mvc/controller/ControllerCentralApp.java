@@ -61,6 +61,16 @@ public class ControllerCentralApp
             public void actionPerformed(ActionEvent e)
             {
                 controllerNewEmployee = new ControllerNewEmployee(model);
+
+                controllerNewEmployee.getView().addWindowListener(new WindowAdapter()
+                {
+                    @Override
+                    public void windowClosed(WindowEvent e)
+                    {
+                        super.windowClosed(e);
+                        ((AbstractTableModel)viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
+                    }
+                });
             }
         });
     }

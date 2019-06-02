@@ -244,4 +244,6 @@ public class ViewNewEmployee extends JFrame
     {
         return this.cancelButton;
     }
+
+
 }

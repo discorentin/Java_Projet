@@ -305,7 +305,7 @@
           </grid>
           <grid id="9e1c1" layout-manager="GridBagLayout">
             <constraints>
-              <tabbedpane title="Attendencies"/>
+              <tabbedpane title="Attendances"/>
             </constraints>
             <properties/>
             <border type="none"/>
