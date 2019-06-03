@@ -6,6 +6,8 @@ import mvc.view.centralApp.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -32,7 +34,32 @@ public class ControllerCentralApp
             @Override
             public void actionPerformed(ActionEvent e)
             {
+                if(viewCentralApp.getDepartmentComboBox().getSelectedItem() != null)
+                {
+                    TableRowSorter<TableModel> sorter = (TableRowSorter) viewCentralApp.getEmployeesTable1().getRowSorter();//new TableRowSorter<>(viewCentralApp.getEmployeesTable2().getModel());
+                    sorter.setRowFilter(RowFilter.regexFilter(viewCentralApp.getDepartmentComboBox().getSelectedItem().toString(), 2));
 
+                    viewCentralApp.getDeleteDepartmentButton().setEnabled(true);
+                }
+                else
+                {
+                    viewCentralApp.getDeleteDepartmentButton().setEnabled(false);
+                }
+            }
+        });
+
+        viewCentralApp.getDeleteDepartmentButton().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String selectedDepName = viewCentralApp.getDepartmentComboBox().getSelectedItem().toString();
+                mvc.model.Department selectedDepartment = model.getCompany().getDepartment(selectedDepName);
+
+                model.getCompany().removeDepartment(selectedDepartment);
+
+                ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
+                viewCentralApp.setDepartmentComboBox(model);
             }
         });
 
@@ -118,38 +145,50 @@ public class ControllerCentralApp
             }
         });
 
-        viewCentralApp.getEmployeesTable2().addFocusListener(new FocusAdapter() //TODO : change listener
+        viewCentralApp.getEmployeesTable2().getSelectionModel().addListSelectionListener(new ListSelectionListener()
         {
             @Override
-            public void focusGained(FocusEvent e)
+            public void valueChanged(ListSelectionEvent e)
             {
-                super.focusGained(e);
                 int rowIndex = viewCentralApp.getEmployeesTable2().getSelectedRow();
-                mvc.model.Employee selectedEmployee = new mvc.model.Employee("", "", false, Duration.ofHours(0), Duration.ofHours(0));
 
-                for(int i = 0; i < model.getCompany().getNbEmployees(); i++)
+                if (rowIndex >= 0)
                 {
-                    if(model.getCompany().getEmployeesList().get(i).getEmployeeId().toString().equals(viewCentralApp.getEmployeesTable2().getValueAt(rowIndex, 4)))
+                    mvc.model.Employee selectedEmployee = new mvc.model.Employee("", "", false, Duration.ofHours(0), Duration.ofHours(0));
+
+                    for (int i = 0; i < model.getCompany().getNbEmployees(); i++)
                     {
-                        selectedEmployee = new mvc.model.Employee(model.getCompany().getEmployeesList().get(i));
+                        if (model.getCompany().getEmployeesList().get(i).getEmployeeId().toString().equals(viewCentralApp.getEmployeesTable2().getValueAt(rowIndex, 4)))
+                        {
+                            selectedEmployee = new mvc.model.Employee(model.getCompany().getEmployeesList().get(i));
+                        }
                     }
-                }
 
-                viewCentralApp.getFirstNameIsLabel().setText(selectedEmployee.getName());
-                viewCentralApp.getLastNameIsLabel().setText(selectedEmployee.getSurname());
-                viewCentralApp.getDepartmentIsLabel().setText(selectedEmployee.getDepartment().getDepName());
-                viewCentralApp.getIdIsLabel().setText(selectedEmployee.getEmployeeId().toString());
+                    viewCentralApp.getFirstNameIsLabel().setText(selectedEmployee.getName());
+                    viewCentralApp.getLastNameIsLabel().setText(selectedEmployee.getSurname());
+                    viewCentralApp.getDepartmentIsLabel().setText(selectedEmployee.getDepartment().getDepName());
+                    viewCentralApp.getIdIsLabel().setText(selectedEmployee.getEmployeeId().toString());
 
-                if(selectedEmployee.isManager())
-                {
-                    viewCentralApp.getStatusIsLabel().setText("Manager");
+                    if (selectedEmployee.isManager())
+                    {
+                        viewCentralApp.getStatusIsLabel().setText("Manager");
+                    }
+                    else
+                    {
+                        viewCentralApp.getStatusIsLabel().setText("Employee");
+                    }
+
+                    viewCentralApp.getHRatioIsLabel().setText(selectedEmployee.getEmployeeTime().getHRatio().toString());
                 }
                 else
                 {
-                    viewCentralApp.getStatusIsLabel().setText("Employee");
+                    viewCentralApp.getFirstNameIsLabel().setText("");
+                    viewCentralApp.getLastNameIsLabel().setText("");
+                    viewCentralApp.getDepartmentIsLabel().setText("");
+                    viewCentralApp.getIdIsLabel().setText("");
+                    viewCentralApp.getStatusIsLabel().setText("");
+                    viewCentralApp.getHRatioIsLabel().setText("");
                 }
-
-                viewCentralApp.getHRatioIsLabel().setText(selectedEmployee.getEmployeeTime().getHRatio().toString());
             }
         });
 
