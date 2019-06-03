@@ -19,6 +19,7 @@ public class ControllerCentralApp
 {
     private mvc.model.ModelCentralApp model;
     private mvc.view.centralApp.ViewCentralApp viewCentralApp;
+    private mvc.controller.ControllerDeleteDepartment controllerDeleteDepartment;
     private mvc.controller.ControllerNewDepartment controllerNewDepartment;
     private mvc.controller.ControllerNewEmployee controllerNewEmployee;
 
@@ -56,10 +57,18 @@ public class ControllerCentralApp
                 String selectedDepName = viewCentralApp.getDepartmentComboBox().getSelectedItem().toString();
                 mvc.model.Department selectedDepartment = model.getCompany().getDepartment(selectedDepName);
 
-                model.getCompany().removeDepartment(selectedDepartment);
+                controllerDeleteDepartment = new ControllerDeleteDepartment(model, selectedDepartment);
 
-                ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
-                viewCentralApp.setDepartmentComboBox(model);
+                controllerDeleteDepartment.getView().addWindowListener(new WindowAdapter()
+                {
+                    @Override
+                    public void windowClosed(WindowEvent e)
+                    {
+                        super.windowClosed(e);
+                        ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
+                        viewCentralApp.setDepartmentComboBox(model);
+                    }
+                });
             }
         });
 
