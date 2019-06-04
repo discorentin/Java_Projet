@@ -13,7 +13,6 @@ public class ViewCentralApp extends JFrame
     private JComboBox departmentComboBox;
     private JTable employeesTable1;
     private JTable managerTable;
-    private JButton editButton1;
     private JButton deleteDepartmentButton;
     private JButton newDepartmentButton;
     private JButton editButton2;
@@ -41,61 +40,11 @@ public class ViewCentralApp extends JFrame
     private JLabel statusIsLabel;
     private JLabel hRatioIsLabel;
     private JButton editDepartmentButton;
+    private JButton editEmployeeButton;
+    private JPanel centralAppPanel;
 
-    public ViewCentralApp(ModelCentralApp model)
+    public ViewCentralApp()
     {
-        class DataModel extends AbstractTableModel
-        {
-            private String[] columnNames = {"First Name",
-                    "Last Name",
-                    "Department",
-                    "Status",
-                    "ID"};
-
-            public String getColumnName(int col)
-            {
-                return columnNames[col];
-            }
-
-            public int getColumnCount()
-            {
-                return columnNames.length;
-            }
-
-            public int getRowCount()
-            {
-                return model.getCompany().getNbEmployees();
-            }
-
-            public Object getValueAt(int row, int col)
-            {
-                Employee employee = model.getCompany().getEmployeesList().get(row);
-
-                switch (col)
-                {
-                    case 0:
-                        return employee.getName();
-                    case 1:
-                        return employee.getSurname();
-                    case 2:
-                        return employee.getDepartment().getDepName();
-                    case 3:
-                        if (employee.isManager())
-                        {
-                            return "Manager";
-                        }
-                        else
-                        {
-                            return "Employee";
-                        }
-                    case 4:
-                        return employee.getEmployeeId().toString();
-                    default:
-                        return null;
-                }
-            }
-        }
-
         $$$setupUI$$$();
 
         setSize(500, 400);
@@ -103,11 +52,6 @@ public class ViewCentralApp extends JFrame
         add(centralAppTabbedPane);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setDepartmentComboBox(model);
-        DataModel dataModel = new DataModel();
-        this.employeesTable1.setModel(dataModel);
-        this.employeesTable2.setModel(dataModel);
-        this.employeesTable3.setModel(dataModel);
     }
 
     /**
@@ -119,38 +63,31 @@ public class ViewCentralApp extends JFrame
      */
     private void $$$setupUI$$$()
     {
-        final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridBagLayout());
+        centralAppPanel = new JPanel();
+        centralAppPanel.setLayout(new GridBagLayout());
         centralAppTabbedPane = new JTabbedPane();
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(centralAppTabbedPane, gbc);
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new GridBagLayout());
-        centralAppTabbedPane.addTab("Departments", panel2);
-        final JPanel panel3 = new JPanel();
-        panel3.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel2.add(panel3, gbc);
-        final JPanel spacer1 = new JPanel();
-        gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.gridheight = 6;
         gbc.fill = GridBagConstraints.BOTH;
-        panel3.add(spacer1, gbc);
+        centralAppPanel.add(centralAppTabbedPane, gbc);
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new GridBagLayout());
+        centralAppTabbedPane.addTab("Departments", panel1);
+        final JPanel panel2 = new JPanel();
+        panel2.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel1.add(panel2, gbc);
         newDepartmentButton = new JButton();
         newDepartmentButton.setText("New department");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
-        panel3.add(newDepartmentButton, gbc);
+        panel2.add(newDepartmentButton, gbc);
         deleteDepartmentButton = new JButton();
         deleteDepartmentButton.setEnabled(false);
         deleteDepartmentButton.setText("Delete department");
@@ -158,21 +95,23 @@ public class ViewCentralApp extends JFrame
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel3.add(deleteDepartmentButton, gbc);
+        panel2.add(deleteDepartmentButton, gbc);
         departmentComboBox = new JComboBox();
+        Font departmentComboBoxFont = this.$$$getFont$$$(null, Font.PLAIN, -1, departmentComboBox.getFont());
+        if (departmentComboBoxFont != null) departmentComboBox.setFont(departmentComboBoxFont);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridheight = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel3.add(departmentComboBox, gbc);
-        final JPanel spacer2 = new JPanel();
+        panel2.add(departmentComboBox, gbc);
+        final JPanel spacer1 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.fill = GridBagConstraints.BOTH;
-        panel3.add(spacer2, gbc);
+        panel2.add(spacer1, gbc);
         editDepartmentButton = new JButton();
         editDepartmentButton.setEnabled(false);
         editDepartmentButton.setText("Edit department");
@@ -180,195 +119,209 @@ public class ViewCentralApp extends JFrame
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel3.add(editDepartmentButton, gbc);
-        final JPanel panel4 = new JPanel();
-        panel4.setLayout(new GridBagLayout());
+        panel2.add(editDepartmentButton, gbc);
+        final JPanel panel3 = new JPanel();
+        panel3.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel2.add(panel4, gbc);
+        panel1.add(panel3, gbc);
         managerTable = new JTable();
         managerTable.setAutoCreateRowSorter(false);
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel4.add(managerTable, gbc);
+        panel3.add(managerTable, gbc);
         employeesTable1 = new JTable();
         employeesTable1.setAutoCreateRowSorter(true);
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel4.add(employeesTable1, gbc);
-        final JPanel spacer3 = new JPanel();
+        panel3.add(employeesTable1, gbc);
+        final JPanel spacer2 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel4.add(spacer3, gbc);
-        editButton1 = new JButton();
-        editButton1.setText("Edit employee");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.anchor = GridBagConstraints.EAST;
-        panel4.add(editButton1, gbc);
+        panel3.add(spacer2, gbc);
         addEmployeeButton = new JButton();
         addEmployeeButton.setText("Add employee");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.EAST;
+        panel3.add(addEmployeeButton, gbc);
+        final JPanel spacer3 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel3.add(spacer3, gbc);
+        editEmployeeButton = new JButton();
+        editEmployeeButton.setText("Edit employee");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
-        panel4.add(addEmployeeButton, gbc);
+        panel3.add(editEmployeeButton, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
+        gbc.gridy = 0;
+        gbc.gridheight = 5;
         gbc.fill = GridBagConstraints.BOTH;
-        panel4.add(spacer4, gbc);
+        panel3.add(spacer4, gbc);
+        final JPanel panel4 = new JPanel();
+        panel4.setLayout(new GridBagLayout());
+        centralAppTabbedPane.addTab("Employees", panel4);
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridBagLayout());
-        centralAppTabbedPane.addTab("Employees", panel5);
-        final JPanel panel6 = new JPanel();
-        panel6.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel5.add(panel6, gbc);
-        editButton2 = new JButton();
-        editButton2.setText("Edit");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 7;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel6.add(editButton2, gbc);
+        panel4.add(panel5, gbc);
         final JPanel spacer5 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
-        panel6.add(spacer5, gbc);
-        deleteButton2 = new JButton();
-        deleteButton2.setText("Delete");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 2;
-        gbc.gridy = 7;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel6.add(deleteButton2, gbc);
+        panel5.add(spacer5, gbc);
         firstNameLabel = new JLabel();
         firstNameLabel.setText("First name :");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
-        panel6.add(firstNameLabel, gbc);
+        panel5.add(firstNameLabel, gbc);
         lastNameLabel = new JLabel();
         lastNameLabel.setText("Last name :");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.EAST;
-        panel6.add(lastNameLabel, gbc);
+        panel5.add(lastNameLabel, gbc);
         departmentLabel = new JLabel();
         departmentLabel.setText("Department :");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.EAST;
-        panel6.add(departmentLabel, gbc);
+        panel5.add(departmentLabel, gbc);
         idLabel = new JLabel();
         idLabel.setText("ID :");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.EAST;
-        panel6.add(idLabel, gbc);
+        panel5.add(idLabel, gbc);
         hRatioLabel = new JLabel();
         hRatioLabel.setText("Hours Ratio :");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.EAST;
-        panel6.add(hRatioLabel, gbc);
+        panel5.add(hRatioLabel, gbc);
         statusLabel = new JLabel();
         statusLabel.setText("Status :");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.EAST;
-        panel6.add(statusLabel, gbc);
+        panel5.add(statusLabel, gbc);
         firstNameIsLabel = new JLabel();
         firstNameIsLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        panel6.add(firstNameIsLabel, gbc);
+        panel5.add(firstNameIsLabel, gbc);
         lastNameIsLabel = new JLabel();
         lastNameIsLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        panel6.add(lastNameIsLabel, gbc);
+        panel5.add(lastNameIsLabel, gbc);
         departmentIsLabel = new JLabel();
         departmentIsLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
-        panel6.add(departmentIsLabel, gbc);
+        panel5.add(departmentIsLabel, gbc);
         idIsLabel = new JLabel();
         idIsLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
-        panel6.add(idIsLabel, gbc);
+        panel5.add(idIsLabel, gbc);
         statusIsLabel = new JLabel();
         statusIsLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
-        panel6.add(statusIsLabel, gbc);
+        panel5.add(statusIsLabel, gbc);
         hRatioIsLabel = new JLabel();
         hRatioIsLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 5;
         gbc.anchor = GridBagConstraints.WEST;
-        panel6.add(hRatioIsLabel, gbc);
+        panel5.add(hRatioIsLabel, gbc);
         final JPanel spacer6 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridheight = 6;
         gbc.fill = GridBagConstraints.BOTH;
-        panel6.add(spacer6, gbc);
-        final JPanel panel7 = new JPanel();
-        panel7.setLayout(new GridBagLayout());
+        panel5.add(spacer6, gbc);
+        editButton2 = new JButton();
+        editButton2.setText("Edit");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.EAST;
+        panel5.add(editButton2, gbc);
+        deleteButton2 = new JButton();
+        deleteButton2.setText("Delete");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 7;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel5.add(deleteButton2, gbc);
+        final JPanel spacer7 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        gbc.fill = GridBagConstraints.BOTH;
+        panel5.add(spacer7, gbc);
+        final JPanel panel6 = new JPanel();
+        panel6.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel5.add(panel7, gbc);
-        final JPanel spacer7 = new JPanel();
+        panel4.add(panel6, gbc);
+        final JPanel spacer8 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.gridheight = 7;
         gbc.fill = GridBagConstraints.BOTH;
-        panel7.add(spacer7, gbc);
+        panel6.add(spacer8, gbc);
         searchEmployeeTextField1 = new JTextField();
+        searchEmployeeTextField1.setColumns(14);
         searchEmployeeTextField1.setText("Search employee");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -376,7 +329,7 @@ public class ViewCentralApp extends JFrame
         gbc.gridwidth = 3;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel7.add(searchEmployeeTextField1, gbc);
+        panel6.add(searchEmployeeTextField1, gbc);
         employeesTable2 = new JTable();
         employeesTable2.setAutoCreateRowSorter(true);
         employeesTable2.setEnabled(false);
@@ -386,28 +339,28 @@ public class ViewCentralApp extends JFrame
         gbc.gridwidth = 3;
         gbc.gridheight = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel7.add(employeesTable2, gbc);
-        final JPanel spacer8 = new JPanel();
+        panel6.add(employeesTable2, gbc);
+        final JPanel spacer9 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
-        panel7.add(spacer8, gbc);
+        panel6.add(spacer9, gbc);
         exportEmployeesListButton = new JButton();
         exportEmployeesListButton.setText("Export employees list");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 6;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel7.add(exportEmployeesListButton, gbc);
+        panel6.add(exportEmployeesListButton, gbc);
         importEmployeesListButton = new JButton();
         importEmployeesListButton.setText("Import employees list");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 5;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel7.add(importEmployeesListButton, gbc);
+        panel6.add(importEmployeesListButton, gbc);
         newEmployeeButton = new JButton();
         newEmployeeButton.setText("New employee");
         gbc = new GridBagConstraints();
@@ -415,31 +368,31 @@ public class ViewCentralApp extends JFrame
         gbc.gridy = 5;
         gbc.gridheight = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel7.add(newEmployeeButton, gbc);
-        final JPanel spacer9 = new JPanel();
+        panel6.add(newEmployeeButton, gbc);
+        final JPanel spacer10 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
-        panel7.add(spacer9, gbc);
-        final JPanel spacer10 = new JPanel();
+        panel6.add(spacer10, gbc);
+        final JPanel spacer11 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 5;
         gbc.gridheight = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel7.add(spacer10, gbc);
+        panel6.add(spacer11, gbc);
+        final JPanel panel7 = new JPanel();
+        panel7.setLayout(new GridBagLayout());
+        centralAppTabbedPane.addTab("Attendances", panel7);
         final JPanel panel8 = new JPanel();
         panel8.setLayout(new GridBagLayout());
-        centralAppTabbedPane.addTab("Attendances", panel8);
-        final JPanel panel9 = new JPanel();
-        panel9.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel8.add(panel9, gbc);
+        panel7.add(panel8, gbc);
         searchEmployeeTextField2 = new JTextField();
         searchEmployeeTextField2.setText("Search Employee");
         gbc = new GridBagConstraints();
@@ -447,50 +400,50 @@ public class ViewCentralApp extends JFrame
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel9.add(searchEmployeeTextField2, gbc);
+        panel8.add(searchEmployeeTextField2, gbc);
         employeesTable3 = new JTable();
         employeesTable3.setAutoCreateRowSorter(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        panel9.add(employeesTable3, gbc);
-        final JPanel spacer11 = new JPanel();
+        panel8.add(employeesTable3, gbc);
+        final JPanel spacer12 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel8.add(spacer11, gbc);
-        final JPanel spacer12 = new JPanel();
+        panel7.add(spacer12, gbc);
+        final JPanel spacer13 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        panel8.add(spacer12, gbc);
+        panel7.add(spacer13, gbc);
+        final JPanel panel9 = new JPanel();
+        panel9.setLayout(new GridBagLayout());
+        centralAppTabbedPane.addTab("Config", panel9);
         final JPanel panel10 = new JPanel();
         panel10.setLayout(new GridBagLayout());
-        centralAppTabbedPane.addTab("Config", panel10);
-        final JPanel panel11 = new JPanel();
-        panel11.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel10.add(panel11, gbc);
+        panel9.add(panel10, gbc);
         final JLabel label1 = new JLabel();
         label1.setText("IP param :");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        panel11.add(label1, gbc);
+        panel10.add(label1, gbc);
         final JLabel label2 = new JLabel();
         label2.setText("Tally Port :");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
-        panel11.add(label2, gbc);
+        panel10.add(label2, gbc);
         IpParamTextField = new JTextField();
         IpParamTextField.setText("");
         gbc = new GridBagConstraints();
@@ -498,45 +451,76 @@ public class ViewCentralApp extends JFrame
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel11.add(IpParamTextField, gbc);
+        panel10.add(IpParamTextField, gbc);
         tallyPortTextField = new JTextField();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel11.add(tallyPortTextField, gbc);
-        final JPanel spacer13 = new JPanel();
+        panel10.add(tallyPortTextField, gbc);
+        final JPanel spacer14 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
-        panel11.add(spacer13, gbc);
-        final JPanel spacer14 = new JPanel();
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.BOTH;
         panel10.add(spacer14, gbc);
         final JPanel spacer15 = new JPanel();
         gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel10.add(spacer15, gbc);
-        final JPanel spacer16 = new JPanel();
-        gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(spacer16, gbc);
-        final JPanel spacer17 = new JPanel();
+        panel9.add(spacer15, gbc);
+        final JPanel spacer16 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(spacer17, gbc);
+        panel9.add(spacer16, gbc);
+        final JPanel spacer17 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        centralAppPanel.add(spacer17, gbc);
+        final JPanel spacer18 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        centralAppPanel.add(spacer18, gbc);
+        final JPanel spacer19 = new JPanel();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        centralAppPanel.add(spacer19, gbc);
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont)
+    {
+        if (currentFont == null) return null;
+        String resultName;
+        if (fontName == null) {resultName = currentFont.getName();}
+        else
+        {
+            Font testFont = new Font(fontName, Font.PLAIN, 10);
+            if (testFont.canDisplay('a') && testFont.canDisplay('1')) {resultName = fontName;}
+            else {resultName = currentFont.getName();}
+        }
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+    }
+
+    /**
+     * @noinspection ALL
+     */
+    public JComponent $$$getRootComponent$$$()
+    {
+        return centralAppPanel;
     }
 
     /**
@@ -559,6 +543,11 @@ public class ViewCentralApp extends JFrame
     public JComboBox getDepartmentComboBox()
     {
         return this.departmentComboBox;
+    }
+
+    public JButton getEditDepartmentButton()
+    {
+        return this.editDepartmentButton;
     }
 
     public JButton getDeleteDepartmentButton()
@@ -645,18 +634,5 @@ public class ViewCentralApp extends JFrame
     public JTextField getIpParamTextField()
     {
         return this.IpParamTextField;
-    }
-
-    /* SETTER */
-
-    /* DEPARTMENTS TAB */
-
-    public void setDepartmentComboBox(ModelCentralApp model)
-    {
-        this.departmentComboBox.removeAllItems();
-        for (int i = 0; i < model.getCompany().getNbDepartments(); i++)
-        {
-            this.departmentComboBox.addItem(model.getCompany().getDepartmentList().get(i).getDepName());
-        }
     }
 }

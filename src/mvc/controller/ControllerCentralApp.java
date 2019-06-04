@@ -1,5 +1,6 @@
 package mvc.controller;
 
+import mvc.model.Employee;
 import mvc.model.ModelCentralApp;
 import mvc.view.centralApp.*;
 
@@ -19,79 +20,76 @@ public class ControllerCentralApp
 {
     private mvc.model.ModelCentralApp model;
     private mvc.view.centralApp.ViewCentralApp viewCentralApp;
+    private mvc.controller.ControllerEditDepartment controllerEditDepartment;
     private mvc.controller.ControllerDeleteDepartment controllerDeleteDepartment;
     private mvc.controller.ControllerNewDepartment controllerNewDepartment;
+    private mvc.controller.ControllerAddEmployee controllerAddEmployee;
     private mvc.controller.ControllerNewEmployee controllerNewEmployee;
+
+    /* CONSTRUCTOR */
 
     public ControllerCentralApp()
     {
         model = new ModelCentralApp();
-        viewCentralApp = new ViewCentralApp(model);
+        viewCentralApp = new ViewCentralApp();
 
-        /* DEPARTMENTS TAB */
-
-        viewCentralApp.getDepartmentComboBox().addActionListener(new ActionListener()
+        class DataModel extends AbstractTableModel
         {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                if(viewCentralApp.getDepartmentComboBox().getSelectedItem() != null)
-                {
-                    TableRowSorter<TableModel> sorter = (TableRowSorter) viewCentralApp.getEmployeesTable1().getRowSorter();//new TableRowSorter<>(viewCentralApp.getEmployeesTable2().getModel());
-                    sorter.setRowFilter(RowFilter.regexFilter(viewCentralApp.getDepartmentComboBox().getSelectedItem().toString(), 2));
+            private String[] columnNames = {"First Name",
+                    "Last Name",
+                    "Department",
+                    "Status",
+                    "ID"};
 
-                    viewCentralApp.getDeleteDepartmentButton().setEnabled(true);
+            public String getColumnName(int col)
+            {
+                return columnNames[col];
+            }
+
+            public int getColumnCount()
+            {
+                return columnNames.length;
+            }
+
+            public int getRowCount()
+            {
+                return model.getCompany().getNbEmployees();
+            }
+
+            public Object getValueAt(int row, int col)
+            {
+                Employee employee = model.getCompany().getEmployeesList().get(row);
+
+                switch (col)
+                {
+                    case 0:
+                        return employee.getName();
+                    case 1:
+                        return employee.getSurname();
+                    case 2:
+                        return employee.getDepartment().getDepName();
+                    case 3:
+                        if (employee.isManager())
+                        {
+                            return "Manager";
+                        }
+                        else
+                        {
+                            return "Employee";
+                        }
+                    case 4:
+                        return employee.getEmployeeId().toString();
+                    default:
+                        return null;
                 }
-                else
-                {
-                    viewCentralApp.getDeleteDepartmentButton().setEnabled(false);
-                }
             }
-        });
+        }
 
-        viewCentralApp.getDeleteDepartmentButton().addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                String selectedDepName = viewCentralApp.getDepartmentComboBox().getSelectedItem().toString();
-                mvc.model.Department selectedDepartment = model.getCompany().getDepartment(selectedDepName);
-
-                controllerDeleteDepartment = new ControllerDeleteDepartment(model, selectedDepartment);
-
-                controllerDeleteDepartment.getView().addWindowListener(new WindowAdapter()
-                {
-                    @Override
-                    public void windowClosed(WindowEvent e)
-                    {
-                        super.windowClosed(e);
-                        ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
-                        viewCentralApp.setDepartmentComboBox(model);
-                    }
-                });
-            }
-        });
-
-        viewCentralApp.getNewDepartmentButton().addActionListener(new ActionListener()
-        {
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-                controllerNewDepartment = new ControllerNewDepartment(model);
-
-                controllerNewDepartment.getView().addWindowListener(new WindowAdapter()
-                {
-                    @Override
-                    public void windowClosed(WindowEvent e)
-                    {
-                        super.windowClosed(e);
-                        viewCentralApp.setDepartmentComboBox(model);
-                    }
-                });
-            }
-        });
-
-        /* EMPLOYEES TAB */
+        setDepartmentComboBox(model);
+        DataModel dataModel = new DataModel();
+        viewCentralApp.getEmployeesTable1().setModel(dataModel);
+        viewCentralApp.getEmployeesTable2().setModel(dataModel);
+        viewCentralApp.getEmployeesTable3().setModel(dataModel);
 
         viewCentralApp.getCentralAppTabbedPane().addChangeListener(new ChangeListener()
         {
@@ -121,6 +119,115 @@ public class ControllerCentralApp
                 }
             }
         });
+
+        /* DEPARTMENTS TAB */
+
+        viewCentralApp.getDepartmentComboBox().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if(viewCentralApp.getDepartmentComboBox().getSelectedItem() != null)
+                {
+                    TableRowSorter<TableModel> sorter = (TableRowSorter) viewCentralApp.getEmployeesTable1().getRowSorter();//new TableRowSorter<>(viewCentralApp.getEmployeesTable2().getModel());
+                    sorter.setRowFilter(RowFilter.regexFilter(viewCentralApp.getDepartmentComboBox().getSelectedItem().toString(), 2));
+
+                    viewCentralApp.getDeleteDepartmentButton().setEnabled(true);
+                    viewCentralApp.getEditDepartmentButton().setEnabled(true);
+                }
+                else
+                {
+                    viewCentralApp.getDeleteDepartmentButton().setEnabled(false);
+                }
+            }
+        });
+
+        viewCentralApp.getEditDepartmentButton().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                mvc.model.Department selectedDepartment = getSelectedDepartment();
+                controllerEditDepartment = new ControllerEditDepartment(selectedDepartment);
+
+                controllerEditDepartment.getView().addWindowListener(new WindowAdapter()
+                {
+                    @Override
+                    public void windowClosed(WindowEvent e)
+                    {
+                        super.windowClosed(e);
+                        ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
+                        setDepartmentComboBox(model);
+                        viewCentralApp.getDepartmentComboBox().setSelectedItem(selectedDepartment.getDepName());
+                    }
+                });
+            }
+        });
+
+        viewCentralApp.getDeleteDepartmentButton().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                mvc.model.Department selectedDepartment = getSelectedDepartment();
+                controllerDeleteDepartment = new ControllerDeleteDepartment(model, selectedDepartment);
+
+                controllerDeleteDepartment.getView().addWindowListener(new WindowAdapter()
+                {
+                    @Override
+                    public void windowClosed(WindowEvent e)
+                    {
+                        super.windowClosed(e);
+                        ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
+                        setDepartmentComboBox(model);
+                    }
+                });
+            }
+        });
+
+        viewCentralApp.getNewDepartmentButton().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                controllerNewDepartment = new ControllerNewDepartment(model);
+
+                controllerNewDepartment.getView().addWindowListener(new WindowAdapter()
+                {
+                    @Override
+                    public void windowClosed(WindowEvent e)
+                    {
+                        super.windowClosed(e);
+                        ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
+                        setDepartmentComboBox(model);
+                        viewCentralApp.getDepartmentComboBox().setSelectedIndex(viewCentralApp.getDepartmentComboBox().getItemCount() - 1);
+                    }
+                });
+            }
+        });
+
+        viewCentralApp.getAddEmployeeButton().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                mvc.model.Department selectedDepartment = getSelectedDepartment();
+
+                controllerAddEmployee = new ControllerAddEmployee(model, selectedDepartment, dataModel);
+
+                controllerAddEmployee.getView().addWindowListener(new WindowAdapter()
+                {
+                    @Override
+                    public void windowClosed(WindowEvent e)
+                    {
+                        super.windowClosed(e);
+                        ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
+                    }
+                });
+            }
+        });
+
+        /* EMPLOYEES TAB */
 
         viewCentralApp.getSearchEmployeeTextField1().addFocusListener(new FocusAdapter()
         {
@@ -169,14 +276,23 @@ public class ControllerCentralApp
                     {
                         if (model.getCompany().getEmployeesList().get(i).getEmployeeId().toString().equals(viewCentralApp.getEmployeesTable2().getValueAt(rowIndex, 4)))
                         {
-                            selectedEmployee = new mvc.model.Employee(model.getCompany().getEmployeesList().get(i));
+                            selectedEmployee = model.getCompany().getEmployeesList().get(i);
                         }
                     }
 
                     viewCentralApp.getFirstNameIsLabel().setText(selectedEmployee.getName());
                     viewCentralApp.getLastNameIsLabel().setText(selectedEmployee.getSurname());
                     viewCentralApp.getDepartmentIsLabel().setText(selectedEmployee.getDepartment().getDepName());
-                    viewCentralApp.getIdIsLabel().setText(selectedEmployee.getEmployeeId().toString());
+
+                    if(viewCentralApp.getWidth() < 750)
+                    {
+                        String shortId[] = selectedEmployee.getEmployeeId().toString().split("-");
+                        viewCentralApp.getIdIsLabel().setText(shortId[0] + "...");
+                    }
+                    else
+                    {
+                        viewCentralApp.getIdIsLabel().setText(selectedEmployee.getEmployeeId().toString());
+                    }
 
                     if (selectedEmployee.isManager())
                     {
@@ -197,6 +313,40 @@ public class ControllerCentralApp
                     viewCentralApp.getIdIsLabel().setText("");
                     viewCentralApp.getStatusIsLabel().setText("");
                     viewCentralApp.getHRatioIsLabel().setText("");
+                }
+            }
+        });
+
+        viewCentralApp.addComponentListener(new ComponentAdapter()
+        {
+            @Override
+            public void componentResized(ComponentEvent e)
+            {
+                super.componentResized(e);
+
+                int rowIndex = viewCentralApp.getEmployeesTable2().getSelectedRow();
+
+                if(viewCentralApp.getEmployeesTable2().getSelectedRow() >= 0)
+                {
+                    mvc.model.Employee selectedEmployee = new mvc.model.Employee("", "", false, Duration.ofHours(0), Duration.ofHours(0));
+
+                    for (int i = 0; i < model.getCompany().getNbEmployees(); i++)
+                    {
+                        if (model.getCompany().getEmployeesList().get(i).getEmployeeId().toString().equals(viewCentralApp.getEmployeesTable2().getValueAt(rowIndex, 4)))
+                        {
+                            selectedEmployee = model.getCompany().getEmployeesList().get(i);
+                        }
+                    }
+
+                    if(viewCentralApp.getWidth() < 750)
+                    {
+                        String shortId[] = selectedEmployee.getEmployeeId().toString().split("-");
+                        viewCentralApp.getIdIsLabel().setText(shortId[0] + "...");
+                    }
+                    else
+                    {
+                        viewCentralApp.getIdIsLabel().setText(selectedEmployee.getEmployeeId().toString());
+                    }
                 }
             }
         });
@@ -255,8 +405,29 @@ public class ControllerCentralApp
         });
     }
 
+    /* GETTER */
+
     public mvc.model.ModelCentralApp getModel()
     {
         return this.model;
+    }
+
+    private mvc.model.Department getSelectedDepartment()
+    {
+        String selectedDepName = viewCentralApp.getDepartmentComboBox().getSelectedItem().toString();
+        mvc.model.Department selectedDepartment = model.getCompany().getDepartment(selectedDepName);
+
+        return selectedDepartment;
+    }
+
+    /* SETTER */
+
+    private void setDepartmentComboBox(ModelCentralApp model)
+    {
+        viewCentralApp.getDepartmentComboBox().removeAllItems();
+        for (int i = 0; i < model.getCompany().getNbDepartments(); i++)
+        {
+            viewCentralApp.getDepartmentComboBox().addItem(model.getCompany().getDepartmentList().get(i).getDepName());
+        }
     }
 }

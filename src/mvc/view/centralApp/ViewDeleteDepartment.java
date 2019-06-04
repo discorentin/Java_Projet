@@ -128,6 +128,8 @@ public class ViewDeleteDepartment extends JFrame
         gbc.fill = GridBagConstraints.BOTH;
         panel1.add(spacer3, gbc);
         departmentComboBox = new JComboBox();
+        Font departmentComboBoxFont = this.$$$getFont$$$(null, Font.PLAIN, -1, departmentComboBox.getFont());
+        if (departmentComboBoxFont != null) departmentComboBox.setFont(departmentComboBoxFont);
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 4;

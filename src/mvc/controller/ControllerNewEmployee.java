@@ -13,6 +13,8 @@ public class ControllerNewEmployee
 {
     private mvc.view.centralApp.ViewNewEmployee viewNewEmployee;
 
+    /* CONSTRUCTORS */
+
     public ControllerNewEmployee(mvc.model.ModelCentralApp model)
     {
         viewNewEmployee = new mvc.view.centralApp.ViewNewEmployee();
@@ -106,11 +108,23 @@ public class ControllerNewEmployee
         });
     }
 
+    public ControllerNewEmployee(mvc.model.ModelCentralApp model, mvc.model.Department department)
+    {
+        this(model);
+        viewNewEmployee.getDepartmentComboBox().setSelectedItem(department.getDepName());
+        viewNewEmployee.getDepartmentComboBox().setEnabled(false);
+    }
+
     /* GETTER */
 
     public mvc.view.centralApp.ViewNewEmployee getView()
     {
         return viewNewEmployee;
+    }
+
+    public JButton getOkButton()
+    {
+        return viewNewEmployee.getOkButton();
     }
 
     /* METHOD */

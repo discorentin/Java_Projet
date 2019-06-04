@@ -2,6 +2,7 @@ package mvc.controller;
 
 import mvc.view.centralApp.ViewDeleteDepartment;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -14,6 +15,9 @@ public class ControllerDeleteDepartment
     public ControllerDeleteDepartment(mvc.model.ModelCentralApp model, mvc.model.Department department)
     {
         viewDeleteDepartment = new ViewDeleteDepartment();
+
+        SwingUtilities.getRootPane(viewDeleteDepartment.getOkButton()).setDefaultButton(viewDeleteDepartment.getOkButton());
+
 
         viewDeleteDepartment.getMsgLabel().setText(department.getDepName() + " will be deleted from the company.");
 

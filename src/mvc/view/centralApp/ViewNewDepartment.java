@@ -21,7 +21,7 @@ public class ViewNewDepartment extends JFrame
 
     public ViewNewDepartment()
     {
-        setSize(400, 300);
+        setSize(350, 250);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         add(newDepartmentPanel);
