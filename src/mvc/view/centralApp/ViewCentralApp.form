@@ -114,7 +114,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </vspacer>
-                  <component id="f7365" class="javax.swing.JButton" binding="addEmployeeButton" default-binding="true">
+                  <component id="f7365" class="javax.swing.JButton" binding="addEmployeeButton1">
                     <constraints>
                       <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
@@ -129,7 +129,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </vspacer>
-                  <component id="ca998" class="javax.swing.JButton" binding="editEmployeeButton" default-binding="true">
+                  <component id="ca998" class="javax.swing.JButton" binding="editEmployeeButton1">
                     <constraints>
                       <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
@@ -283,7 +283,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </hspacer>
-                  <component id="b1670" class="javax.swing.JButton" binding="editButton2" default-binding="true">
+                  <component id="b1670" class="javax.swing.JButton" binding="editEmployeeButton2">
                     <constraints>
                       <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
@@ -292,7 +292,7 @@
                       <text value="Edit"/>
                     </properties>
                   </component>
-                  <component id="4129c" class="javax.swing.JButton" binding="deleteButton2">
+                  <component id="4129c" class="javax.swing.JButton" binding="deleteEmployeeButton2">
                     <constraints>
                       <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>

@@ -199,34 +199,4 @@ public class Company
         this.departmentList.remove(department);
         this.nbDepartments--;
     }
-
-    public void makeManager(java.util.UUID employeeId)
-    {
-        try
-        {
-            Manager manager;
-            boolean done = false;
-
-            for(int i = 0; i < this.getNbDepartments(); i++)
-            {
-                if(this.departmentList.get(i).getEmployee(employeeId) != null)
-                {
-                    manager = new Manager(this.departmentList.get(i).getEmployee(employeeId));
-                    this.departmentList.get(i).removeEmployee(employeeId);
-                    this.departmentList.get(i).addEmployee(manager);
-
-                    done = true;
-                }
-            }
-
-            if(done == false)
-            {
-                throw new Exception("error : the company " + this.getCompanyName() + " has no employee with the ID " + employeeId);
-            }
-        }
-        catch(Exception exception)
-        {
-            System.err.println(exception.getMessage());
-        }
-    }
 }

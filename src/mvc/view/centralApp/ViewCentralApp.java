@@ -1,10 +1,6 @@
 package mvc.view.centralApp;
 
-import mvc.model.Employee;
-import mvc.model.ModelCentralApp;
-
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 
 public class ViewCentralApp extends JFrame
@@ -15,8 +11,8 @@ public class ViewCentralApp extends JFrame
     private JTable managerTable;
     private JButton deleteDepartmentButton;
     private JButton newDepartmentButton;
-    private JButton editButton2;
-    private JButton deleteButton2;
+    private JButton editEmployeeButton2;
+    private JButton deleteEmployeeButton2;
     private JTextField searchEmployeeTextField1;
     private JTable employeesTable2;
     private JButton newEmployeeButton;
@@ -26,7 +22,7 @@ public class ViewCentralApp extends JFrame
     private JTextField searchEmployeeTextField2;
     private JTextField IpParamTextField;
     private JTextField tallyPortTextField;
-    private JButton addEmployeeButton;
+    private JButton addEmployeeButton1;
     private JLabel firstNameLabel;
     private JLabel lastNameLabel;
     private JLabel departmentLabel;
@@ -40,7 +36,7 @@ public class ViewCentralApp extends JFrame
     private JLabel statusIsLabel;
     private JLabel hRatioIsLabel;
     private JButton editDepartmentButton;
-    private JButton editEmployeeButton;
+    private JButton editEmployeeButton1;
     private JPanel centralAppPanel;
 
     public ViewCentralApp()
@@ -150,13 +146,13 @@ public class ViewCentralApp extends JFrame
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(spacer2, gbc);
-        addEmployeeButton = new JButton();
-        addEmployeeButton.setText("Add employee");
+        addEmployeeButton1 = new JButton();
+        addEmployeeButton1.setText("Add employee");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.EAST;
-        panel3.add(addEmployeeButton, gbc);
+        panel3.add(addEmployeeButton1, gbc);
         final JPanel spacer3 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -164,13 +160,13 @@ public class ViewCentralApp extends JFrame
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(spacer3, gbc);
-        editEmployeeButton = new JButton();
-        editEmployeeButton.setText("Edit employee");
+        editEmployeeButton1 = new JButton();
+        editEmployeeButton1.setText("Edit employee");
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 4;
         gbc.anchor = GridBagConstraints.WEST;
-        panel3.add(editEmployeeButton, gbc);
+        panel3.add(editEmployeeButton1, gbc);
         final JPanel spacer4 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -286,20 +282,20 @@ public class ViewCentralApp extends JFrame
         gbc.gridheight = 6;
         gbc.fill = GridBagConstraints.BOTH;
         panel5.add(spacer6, gbc);
-        editButton2 = new JButton();
-        editButton2.setText("Edit");
+        editEmployeeButton2 = new JButton();
+        editEmployeeButton2.setText("Edit");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.EAST;
-        panel5.add(editButton2, gbc);
-        deleteButton2 = new JButton();
-        deleteButton2.setText("Delete");
+        panel5.add(editEmployeeButton2, gbc);
+        deleteEmployeeButton2 = new JButton();
+        deleteEmployeeButton2.setText("Delete");
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 7;
         gbc.anchor = GridBagConstraints.WEST;
-        panel5.add(deleteButton2, gbc);
+        panel5.add(deleteEmployeeButton2, gbc);
         final JPanel spacer7 = new JPanel();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -565,9 +561,9 @@ public class ViewCentralApp extends JFrame
         return this.employeesTable1;
     }
 
-    public JButton getAddEmployeeButton()
+    public JButton getAddEmployeeButton1()
     {
-        return this.addEmployeeButton;
+        return this.addEmployeeButton1;
     }
 
     /* EMPLOYEES TAB */
@@ -615,6 +611,16 @@ public class ViewCentralApp extends JFrame
     public JLabel getHRatioIsLabel()
     {
         return this.hRatioIsLabel;
+    }
+
+    public JButton getEditEmployeeButton2()
+    {
+        return editEmployeeButton2;
+    }
+
+    public JButton getDeleteEmployeeButton2()
+    {
+        return deleteEmployeeButton2;
     }
 
     /* ATTENDANCES TAB */

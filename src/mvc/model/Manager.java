@@ -17,14 +17,11 @@ public class Manager extends Employee
         super(param);
     }
 
-    /**
-     * @constructor
-     * @param {Employee} employee : the employee to promote
-     */
-    public void makeManager(Employee employee)
+    /* DESTRUCTOR */
+
+    public void destroyManager()
     {
-        Manager manager = new Manager(employee);
-        employee = null;
+        this.getDepartment().removeEmployee(this);
     }
 
     /* METHOD */

@@ -160,14 +160,6 @@ public class Department
      */
     public void addEmployee(Employee employee)
     {
-        for(int i = 0; i < this.getNbEmployees(); i++)
-        {
-            if (this.employeeList.get(i).getEmployeeId() == employee.getEmployeeId())
-            {
-                return;
-            }
-        }
-
         employee.setDepartment(this);
         this.employeeList.add(employee);
         this.nbEmployees++;
@@ -178,23 +170,39 @@ public class Department
      * @function Department#removeEmployee
      * @description Removes an employee from the department.
      */
-    public void removeEmployee(java.util.UUID employeeId)
+    public void removeEmployee(Employee employee)
     {
+        boolean done = false;
+
         try
         {
-            if (this.getEmployee(employeeId) == null)
+            for(int i = 0; i < this.nbEmployees; i++)
             {
-                this.getEmployee(employeeId).setDepartment(null);
-                this.employeeList.remove(this.getEmployee(employeeId));
+                if(this.getEmployeeList().get(i).equals(employee))
+                {
+                    this.getEmployeeList().get(i).setDepartment(null);
+                    this.employeeList.remove(employee);
+                    done = true;
+                }
+            }
+
+            if (!done)
+            {
+                throw new Exception("error : the employee with ID " + employee.getEmployeeId().toString() + " is not in the department " + this.getDepName());
             }
             else
             {
-                throw new Exception("error : the employee with ID " + employeeId.toString() + " is not in the department " + this.getDepName());
+                this.nbEmployees--;
             }
         }
         catch (Exception exception)
         {
             System.err.println(exception.getMessage());
         }
+    }
+
+    public String toString()
+    {
+        return this.depName;
     }
 }

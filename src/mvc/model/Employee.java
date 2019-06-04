@@ -38,8 +38,8 @@ public class Employee extends Person
     {
         super(param.getName(), param.getSurname());
         this.employeeId = param.getEmployeeId();
-        setDepartment(param.getDepartment());
         this.employeeTime = param.getEmployeeTime();
+        param.getDepartment().addEmployee(this);
     }
 
     /**
@@ -55,6 +55,13 @@ public class Employee extends Person
         super(name, surname);
         this.employeeId = java.util.UUID.randomUUID();
         this.employeeTime = new EmployeeTime(isAtWork, mustArriveAt, mustLeaveAt);
+    }
+
+    /* DESTRUCTOR */
+
+    public void destroyEmployee()
+    {
+        this.getDepartment().removeEmployee(this);
     }
 
     /* GETTERS */
@@ -106,5 +113,29 @@ public class Employee extends Person
     public boolean isManager()
     {
         return false;
+    }
+
+    public void makeManager()
+    {
+        if(!this.isManager())
+        {
+            Employee employee = new Employee(this.getName(), this.getSurname(), this.getEmployeeTime().getIsAtWork(),
+                                                        this.getEmployeeTime().getMustArriveAt(), this.employeeTime.getMustLeaveAt());
+            employee.setDepartment(this.department);
+            this.destroyEmployee();
+            Manager manager = new Manager(employee);
+        }
+    }
+
+    public void makeEmployee()
+    {
+        if(this.isManager())
+        {
+            Employee employee = new Employee(this.getName(), this.getSurname(), this.getEmployeeTime().getIsAtWork(),
+                    this.getEmployeeTime().getMustArriveAt(), this.employeeTime.getMustLeaveAt());
+            mvc.model.Department department = this.department;
+            this.destroyEmployee();
+            department.addEmployee(employee);
+        }
     }
 }

@@ -14,7 +14,6 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
 import java.time.Duration;
-import java.util.UUID;
 
 public class ControllerCentralApp
 {
@@ -25,6 +24,7 @@ public class ControllerCentralApp
     private mvc.controller.ControllerNewDepartment controllerNewDepartment;
     private mvc.controller.ControllerAddEmployee controllerAddEmployee;
     private mvc.controller.ControllerNewEmployee controllerNewEmployee;
+    private mvc.controller.ControllerEditEmployee controllerEditEmployee;
 
     /* CONSTRUCTOR */
 
@@ -100,14 +100,17 @@ public class ControllerCentralApp
                 {
                     case 0 :
                         viewCentralApp.getEmployeesTable2().setEnabled(false);
+                        ((AbstractTableModel)viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
                         break;
                     case 1 :
                         viewCentralApp.getSearchEmployeeTextField1().requestFocus();
                         viewCentralApp.getEmployeesTable2().setEnabled(true);
+                        ((AbstractTableModel)viewCentralApp.getEmployeesTable2().getModel()).fireTableDataChanged();
                         break;
                     case 2 :
                         viewCentralApp.getSearchEmployeeTextField2().requestFocus();
                         viewCentralApp.getEmployeesTable2().setEnabled(false);
+                        ((AbstractTableModel)viewCentralApp.getEmployeesTable3().getModel()).fireTableDataChanged();
                         break;
                     case 3 :
                         viewCentralApp.getIpParamTextField().requestFocus();
@@ -130,7 +133,7 @@ public class ControllerCentralApp
                 if(viewCentralApp.getDepartmentComboBox().getSelectedItem() != null)
                 {
                     TableRowSorter<TableModel> sorter = (TableRowSorter) viewCentralApp.getEmployeesTable1().getRowSorter();//new TableRowSorter<>(viewCentralApp.getEmployeesTable2().getModel());
-                    sorter.setRowFilter(RowFilter.regexFilter(viewCentralApp.getDepartmentComboBox().getSelectedItem().toString(), 2));
+                    sorter.setRowFilter(RowFilter.regexFilter(getSelectedDepartment(viewCentralApp.getDepartmentComboBox()).toString(), 2));
 
                     viewCentralApp.getDeleteDepartmentButton().setEnabled(true);
                     viewCentralApp.getEditDepartmentButton().setEnabled(true);
@@ -147,7 +150,7 @@ public class ControllerCentralApp
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                mvc.model.Department selectedDepartment = getSelectedDepartment();
+                mvc.model.Department selectedDepartment = getSelectedDepartment(viewCentralApp.getDepartmentComboBox());
                 controllerEditDepartment = new ControllerEditDepartment(selectedDepartment);
 
                 controllerEditDepartment.getView().addWindowListener(new WindowAdapter()
@@ -169,7 +172,7 @@ public class ControllerCentralApp
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                mvc.model.Department selectedDepartment = getSelectedDepartment();
+                mvc.model.Department selectedDepartment = getSelectedDepartment(viewCentralApp.getDepartmentComboBox());
                 controllerDeleteDepartment = new ControllerDeleteDepartment(model, selectedDepartment);
 
                 controllerDeleteDepartment.getView().addWindowListener(new WindowAdapter()
@@ -206,12 +209,12 @@ public class ControllerCentralApp
             }
         });
 
-        viewCentralApp.getAddEmployeeButton().addActionListener(new ActionListener()
+        viewCentralApp.getAddEmployeeButton1().addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                mvc.model.Department selectedDepartment = getSelectedDepartment();
+                mvc.model.Department selectedDepartment = getSelectedDepartment(viewCentralApp.getDepartmentComboBox());
 
                 controllerAddEmployee = new ControllerAddEmployee(model, selectedDepartment, dataModel);
 
@@ -266,20 +269,10 @@ public class ControllerCentralApp
             @Override
             public void valueChanged(ListSelectionEvent e)
             {
-                int rowIndex = viewCentralApp.getEmployeesTable2().getSelectedRow();
+                mvc.model.Employee selectedEmployee = getSelectedEmployee(viewCentralApp.getEmployeesTable2());
 
-                if (rowIndex >= 0)
+                if (selectedEmployee != null)
                 {
-                    mvc.model.Employee selectedEmployee = new mvc.model.Employee("", "", false, Duration.ofHours(0), Duration.ofHours(0));
-
-                    for (int i = 0; i < model.getCompany().getNbEmployees(); i++)
-                    {
-                        if (model.getCompany().getEmployeesList().get(i).getEmployeeId().toString().equals(viewCentralApp.getEmployeesTable2().getValueAt(rowIndex, 4)))
-                        {
-                            selectedEmployee = model.getCompany().getEmployeesList().get(i);
-                        }
-                    }
-
                     viewCentralApp.getFirstNameIsLabel().setText(selectedEmployee.getName());
                     viewCentralApp.getLastNameIsLabel().setText(selectedEmployee.getSurname());
                     viewCentralApp.getDepartmentIsLabel().setText(selectedEmployee.getDepartment().getDepName());
@@ -324,20 +317,10 @@ public class ControllerCentralApp
             {
                 super.componentResized(e);
 
-                int rowIndex = viewCentralApp.getEmployeesTable2().getSelectedRow();
+                mvc.model.Employee selectedEmployee = getSelectedEmployee(viewCentralApp.getEmployeesTable2());
 
-                if(viewCentralApp.getEmployeesTable2().getSelectedRow() >= 0)
+                if(selectedEmployee != null)
                 {
-                    mvc.model.Employee selectedEmployee = new mvc.model.Employee("", "", false, Duration.ofHours(0), Duration.ofHours(0));
-
-                    for (int i = 0; i < model.getCompany().getNbEmployees(); i++)
-                    {
-                        if (model.getCompany().getEmployeesList().get(i).getEmployeeId().toString().equals(viewCentralApp.getEmployeesTable2().getValueAt(rowIndex, 4)))
-                        {
-                            selectedEmployee = model.getCompany().getEmployeesList().get(i);
-                        }
-                    }
-
                     if(viewCentralApp.getWidth() < 750)
                     {
                         String shortId[] = selectedEmployee.getEmployeeId().toString().split("-");
@@ -367,6 +350,30 @@ public class ControllerCentralApp
                         ((AbstractTableModel) viewCentralApp.getEmployeesTable1().getModel()).fireTableDataChanged();
                     }
                 });
+            }
+        });
+
+        viewCentralApp.getEditEmployeeButton2().addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                mvc.model.Employee selectedEmployee = getSelectedEmployee(viewCentralApp.getEmployeesTable2());
+
+                if(selectedEmployee != null)
+                {
+                    controllerEditEmployee = new ControllerEditEmployee(model, selectedEmployee);
+
+                    controllerEditEmployee.getView().addWindowListener(new WindowAdapter()
+                    {
+                        @Override
+                        public void windowClosed(WindowEvent e)
+                        {
+                            super.windowClosed(e);
+                            ((AbstractTableModel) viewCentralApp.getEmployeesTable2().getModel()).fireTableDataChanged();
+                        }
+                    });
+                }
             }
         });
 
@@ -412,12 +419,36 @@ public class ControllerCentralApp
         return this.model;
     }
 
-    private mvc.model.Department getSelectedDepartment()
+    public mvc.model.Department getSelectedDepartment(JComboBox departmentComboBox)
     {
-        String selectedDepName = viewCentralApp.getDepartmentComboBox().getSelectedItem().toString();
+        String selectedDepName = departmentComboBox.getSelectedItem().toString();
         mvc.model.Department selectedDepartment = model.getCompany().getDepartment(selectedDepName);
 
         return selectedDepartment;
+    }
+
+    private mvc.model.Employee getSelectedEmployee(JTable employeesTable)
+    {
+        int rowIndex = employeesTable.getSelectedRow();
+
+        if(employeesTable.getSelectedRow() >= 0)
+        {
+            mvc.model.Employee selectedEmployee = new mvc.model.Employee("", "", false, Duration.ofHours(0), Duration.ofHours(0));
+
+            for (int i = 0; i < model.getCompany().getNbEmployees(); i++)
+            {
+                if (model.getCompany().getEmployeesList().get(i).getEmployeeId().toString().equals(employeesTable.getValueAt(rowIndex, 4)))
+                {
+                    selectedEmployee = model.getCompany().getEmployeesList().get(i);
+                }
+            }
+
+            return selectedEmployee;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /* SETTER */
